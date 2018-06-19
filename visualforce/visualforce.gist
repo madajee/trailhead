@@ -1,0 +1,17 @@
+Covered Modules:
+Visualforce Basics, Visualforce & Lightning Experience
+
+a) Request response page development approach.
+b) Standard Controller and support from 150 build in components like forms provide ease of use.
+c) Dynamic content can be accessed using 
+(i) Expressions with the syntax: {! expression }
+(ii) Global Variable like $User, $Action
+(iii) Support for formulas and in build functions in the expression like TODAY(), CONTAINS()
+(iv) Support for conditionals expression like IF().
+d) While working on applications basic layout for custom pages can be generated using coarse grained components like detail, related list & granular control can be accomplished by using fine grained components like outputField, dataTable etc. 
+e) In Build support for Standard List Controllers, Filters, Paginations are powerful features for working on a record set.
+f) Custom Controllers can enhance the page functionlity by defining apex method and {! someExpression } markup automatically ties to the getSomeExpression() in your controller.
+g) In lightning experience, developers usually build an InDevelopment app and add visualforce tabs to enable the lighning look and feel of a visualforce page.
+h) Visualforce pages can support classic and lightning rendering based on the theme {$User.UIThemeDisplayed or UserInfo.getUiThemeDisplayed()}.
+i) Navigation is mostly through PageReference and enhanced with Javascript and sforce.one utility.
+j) Visualforce components usually have embedded styling and lightning design system can be used for new pages and components. Other CSS frameworks along with the deisgn system libraries can be imported as static resources to style the existing pages in classic UI.

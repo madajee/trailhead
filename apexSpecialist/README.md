@@ -1,7 +1,7 @@
 
 Some Talk
 
-I may say that Superbadge suggests a method of gaining familrity with salesforce tools & platforms. I will also agree that there are resources online which can help in completing it. I think that is okay as you are working with teams in enterprise projects, and solution & requirement discussion help design & understand the data model.
+I may say that Superbadge suggests a method of gaining familiarity with salesforce tools & platforms. I will also agree that there are resources online which can help in completing it. I think that is okay as you are working with teams in enterprise projects, and solution & requirement discussion help with designing & understanding the data model.
 
 Anyways, I am started with the technical understanding of the business requirements.
 

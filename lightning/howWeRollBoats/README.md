@@ -39,6 +39,12 @@ sfdx force:project:create -n howWeRollBoats
 
 sfdx force:lightning:component:create -n BoatSearch -d force-app/main/default/aura/
 
+sfdx force:lightning:component:create -n BoatSearchForm -d force-app/main/default/aura/
+
+sfdx force:lightning:component:create -n BoatSearchResults -d force-app/main/default/aura/
+
+sfdx force:apex:class:create -n BoatController -d force-app/main/default/classes
+
 
 
 
