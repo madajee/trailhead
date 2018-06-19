@@ -9,7 +9,9 @@ Also, with DX project structure, developer can easily play with scratch orgs.
 # SFDX  CLI
 sfdx force:project:create -n expenses
 
-sfdx force:lightning:component:create -n InputDataUsingForm -d force-app/main/default/aura
+sfdx force:lightning:component:create -n InputDataUsingForm -d force-app/main/default/aura/InputDataUsingForm
+
+sfdx force:lightning:component:create -n ConnectToSalesforceWithServerSideController -d force-app/main/default/aura/ConnectToSalesforceWithServerSideController
 
 
 
