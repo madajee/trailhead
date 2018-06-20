@@ -25,7 +25,7 @@ g) Search Button dynamic method can log the Boat Type.
 
 h) Apex Controller code will have to check for location fields. 
 
-Artifacts
+# Artifacts
 a) FriendswithBoats.app 
 b) BoatSearch.cmp
 c) BoatSearchForm.cmp
@@ -44,6 +44,42 @@ sfdx force:lightning:component:create -n BoatSearchForm -d force-app/main/defaul
 sfdx force:lightning:component:create -n BoatSearchResults -d force-app/main/default/aura/
 
 sfdx force:apex:class:create -n BoatController -d force-app/main/default/classes
+******************************************************************************************************************************************************
+
+I) Populate the Search Results
+
+Requirement Understanding
+
+a) HowWeRoll has the boat inventory stored in the Boat object with Picture field defined as URL, and accessing the path through zipped file static resources. We will start with defining the apex controller that will query the boat inventory and return the list of boats. Controller has to filter the boat inventory based on the input parameter of boat type.
+
+b) Boat Search Results will be a container component that will iterate over the boat list and display each boat as Boat Tile component.
+
+c) Boat Tile component has to be a click button background image titled with the photographer name.
+Button has to be a tile and innertile has to reference the following image expression for a style tag.
+{! 'background-image:url(\'' + v.boat.Picture__c + '\'); '}
+
+d) Boat Search Results component will have Boat array and Boat Type as attribute. Init Handler will populate the boat array by invoking the controller method. We will display all boats by passing blank in the boat type input parameter. In the next step, we will be passing the boat type from the parent component.
+
+e) Lightning Layout, Layout Item  and multipleRows attribute provides the responsive grid with multiple rows.
+
+f) Check for boat array length to display message for "No Boats Found".
+
+# Artifacts
+a) BoatSearchResults.apxc
+b) BoatTile.cmp
+c) BoatTile.css
+d) BoatSearchResults.cmp
+e) BoatSearchResultsController.js
+f) BoatSearchResultsHelper.js
+
+# SFDX CLI
+sfdx force:apex:class:create -n BoatSearchResultsController -d force-app/main/default/classes
+
+sfdx force:lightning:component:create -n BoatTile -d force-app/main/default/aura/
+
+******************************************************************************************************************************************************
+
+
 
 
 

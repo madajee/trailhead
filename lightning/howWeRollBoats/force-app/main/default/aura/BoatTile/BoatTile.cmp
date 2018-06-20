@@ -1,0 +1,9 @@
+<aura:component >
+	<aura:attribute name="boat" type="Boat__c"/>
+    <lightning:button name="{!v.boat.Id}" class="tile" aura:id="selectbutton">
+        <div id="boatimage" style="{! 'background-image:url(\'' + v.boat.Picture__c + '\'); '}" class="innertile">
+          <div class="lower-third">
+              <h1 class="slds-truncate"><ui:outputText aura:id="contact" value="{!v.boat.Contact__r.Name}"/></h1>
+           </div>
+        </div>
+</aura:component>

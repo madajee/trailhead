@@ -1,0 +1,10 @@
+Covered Modules:
+Lightning Component Core Concepts, Lightning Component Basics
+
+a) I was a middleware developer, who is quite different from a UI developer. A good Javascript developer can easily override this understanding.
+b) Lightning components are like lego building blocks just like fine grained soa services.
+c) Lightning App Builder helps to containerize these blocks into pages and app on the salesforce platform.
+d) Designer can build beautiful pages by applying composibility principles.
+e) Visualforce pages are usually standalone and user navigates between pages to get application experience. Pages as such are not composable into each other, though page is a composed of visualforce components. 
+f) Lightning Components are not accessible unless added to application but visualforce pages can accessed by a URL.
+g) Lightning Experience along with lightning components handles the plumbing needed to build responsive single page webapps much like native apps.
