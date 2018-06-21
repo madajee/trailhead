@@ -1,7 +1,7 @@
 <aura:component controller="BoatSearchResults">
     <aura:attribute name="boats" type="Boat__c[]" />
     <aura:attribute name="typeId" type="String" default=""/>
-    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:handler name="init" action="{!c.doSearch}" value="{!this}"/>
     <aura:method name="search" description="accepts boatTypeId
                              and executes search that refreshes the boats attribute">
             <aura:attribute name="boatTypeId" type="String"/>

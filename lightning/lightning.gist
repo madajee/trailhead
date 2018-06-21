@@ -1,7 +1,7 @@
 Covered Modules:
 Lightning Component Core Concepts, Lightning Component Basics
 
-a) I was a middleware developer, who is quite different from a UI developer. A good Javascript developer can easily override this understanding.
+a) I am a middleware developer, who is quite different from a UI developer. A good Javascript developer can easily override this understanding.
 b) Lightning components are like lego building blocks just like fine grained soa services.
 c) Lightning App Builder helps to containerize these blocks into pages and app on the salesforce platform.
 d) Designer can build beautiful pages by applying composibility principles.

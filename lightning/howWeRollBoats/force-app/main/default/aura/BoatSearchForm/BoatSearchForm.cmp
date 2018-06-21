@@ -1,7 +1,7 @@
 <aura:component controller="BoatController" implements="flexipage:availableForAllPageTypes">
     <aura:attribute name="options" type="BoatType__c[]" />
     <aura:attribute name='showNewButton' type='Boolean' default='false'/>
-    <aura:registerEvent name="searchResult" type="c:searchSubmit"/>
+    <aura:registerEvent name="FormSubmit" type="c:formSubmit"/>
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
     <aura:attribute name="selectedValue" type="String" default=""/>
      <lightning:layout horizontalAlign="center" verticalAlign="end">
@@ -20,7 +20,8 @@
                 <lightning:button variant="neutral" label="New" onclick="{! c.createRecord }" aura:id="NewButton"/>
             </aura:if>
             
-             <lightning:button class="slds-button" variant="brand" label="Search" onclick="{!c.searchResult}"/>
+             <!--<lightning:button class="slds-button" variant="brand" label="Search" onclick="{!c.searchResult}"/>-->
+             <lightning:button class="slds-button" variant="brand" label="Search" onclick="{!c.onFormSubmit}"/>
          </lightning:layoutItem>    
     </lightning:layout>
 </aura:component>

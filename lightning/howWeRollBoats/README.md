@@ -46,7 +46,7 @@ sfdx force:lightning:component:create -n BoatSearchResults -d force-app/main/def
 sfdx force:apex:class:create -n BoatController -d force-app/main/default/classes
 ******************************************************************************************************************************************************
 
-I) Populate the Search Results
+II) Populate the Search Results
 
 Requirement Understanding
 
@@ -79,10 +79,30 @@ sfdx force:lightning:component:create -n BoatTile -d force-app/main/default/aura
 
 ******************************************************************************************************************************************************
 
+III) Implement the search filter
 
+Requirement Understanding
 
+We know that Search button is available on the BoatSearchForm component and BoatSearchResult component uses the apex controller to fetch the boat results.
+This module is all about passing the selected boat type to the getBoats controller function when the search button on form is pressed. 
+Lightning supports component communication through events, attributes and child method invocation. We will be firing an event from BoatSearchForm component which will be handled by the BoatSearch parent component while retrieving the boat type parameter , and in turn calls the search method on the BoatSearchResuts child component by passing the boat type id.
 
+Search Method on BoatSearchResults component will  invoke getBoats controller function with the boat type id to enable the search filter.
 
+# Artifacts
+a) formSubmit.evt
+b) BoatSearchForm.cmp
+c) BoatSearchFormController.js
+d) BoatSearch.cmp
+e) BoatSearchController.js
+f) BoatSearchResults.cmp
+g) BoatSearchResultsController.js
+h) BoatSearchResultsHelper.js
+
+# SFDX CLI
+sfdx force:lightning:event:create -n formSubmit -d force-app/main/default/aura/
+
+******************************************************************************************************************************************************
 
 # SFDX  App
 

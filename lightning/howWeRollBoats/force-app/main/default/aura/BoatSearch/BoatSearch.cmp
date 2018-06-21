@@ -1,6 +1,6 @@
 <aura:component implements="flexipage:availableForAllPageTypes">
-    <aura:handler name="searchResult" event="c:searchSubmit"
-        action="{!c.handleSearchSubmitEvent}"/>
+    <aura:handler name="FormSubmit" event="c:formSubmit"
+        action="{!c.onFormSubmit}"/>
 	 <lightning:card title="Find a Boat" class="slds-m-bottom_10px">
          <c:BoatSearchForm></c:BoatSearchForm>
     </lightning:card>

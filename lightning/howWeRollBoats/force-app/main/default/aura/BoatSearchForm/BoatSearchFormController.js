@@ -19,14 +19,14 @@
         });
         createRecordEvent.fire();
     },
-    searchResult : function(component, event, helper){
+    onFormSubmit : function(component, event, helper){
         var boatTypeId = component.get("v.selectedValue");
         console.log("Search button pressed " + boatTypeId);
-        var searchSubmitEvent = component.getEvent("searchResult");
-        searchSubmitEvent.setParams({"searchData":
+        var FormSubmit = component.getEvent("FormSubmit");
+        FormSubmit.setParams({"formData":
                             {"boatTypeId" : boatTypeId}
         });
-        console.log("Sending Search Event");
-        searchSubmitEvent.fire();
+        console.log("Firing FormSubmit Event");
+        FormSubmit.fire();
     },
 })
