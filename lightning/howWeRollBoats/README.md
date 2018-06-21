@@ -104,6 +104,28 @@ sfdx force:lightning:event:create -n formSubmit -d force-app/main/default/aura/
 
 ******************************************************************************************************************************************************
 
+IV) Highlight the Selected Boat
+
+BoatTile component is designed to display boat image as a click button, but we need to communicate the selected boat to the BoatSearchResults parent component.
+
+BoatTile component will register a BoatSelect event which will communicate the selected boat id to the BoatSearchResults which then will display the selection in the boat iteration. Selected attribute on the Boat Tile component enables the tenary selection of css class.
+
+# Artifacts
+a) BoatSelect.evt
+b) BoatTile.cmp
+c) BoatTile.css
+d) BoatTileController.js
+e) BoatSearchResults.cmp
+f) BoatSearchResultsController.js
+
+# SFDX CLI
+sfdx force:lightning:event:create -n BoatSelect -d force-app/main/default/aura/
+
+******************************************************************************************************************************************************
+
+
+
+
 # SFDX  App
 
 ## Dev, Build and Test

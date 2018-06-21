@@ -14,4 +14,12 @@
         helper.onSearch(component);
         return "search complete.";
     },
+    onBoatSelect: function (component, event, helper) {
+        console.log("Receiving BoatSelect Event");
+        //var boatData = event.getParam("boatData");
+        var boatId = event.getParam("boatId");
+        //var boatId = boatData.boatId;
+        console.log("Selected Boat ID: " + boatId);
+        component.set("v.selectedBoatId",boatId);
+    },
 })
