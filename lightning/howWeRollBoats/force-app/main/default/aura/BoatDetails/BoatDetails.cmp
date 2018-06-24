@@ -1,0 +1,61 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+	<!--<aura:attribute name="boatRecord" type="Object"/>-->
+    <!--<aura:attribute name="record" type="Object"/>-->
+    <aura:attribute name="id" type="Id"/>
+    <aura:attribute name="boat" type="Boat__c"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+        <!--<aura:handler name="BoatSelected" event="c:BoatSelected"
+            action="{!c.onBoatSelected}"/>-->
+        <aura:handler event="c:BoatSelected" action="{!c.onBoatSelected}"/>
+       <force:recordData aura:id="service"
+            recordId="{!v.id}"
+            targetFields="{!v.boat}"
+            fields="Id,
+                    Name,
+                    Description__c,
+                    Price__c, Length__c,
+                    Contact__r.Name,
+                    Contact__r.Email,
+                    Contact__r.HomePhone,
+                    BoatType__r.Name,
+                    Picture__c"
+            targetError="{!v.recordLoadError}"
+            recordUpdated="{!c.handleRecordUpdate}"
+        />
+        <!--<force:recordData aura:id="service"
+                              recordId="{!v.id}"
+                              targetRecord="{!v.record}"
+                              mode="VIEW"
+                              fields=  "Id,
+                                        Name,
+                                        Description__c,
+                                        Price__c, Length__c,
+                                        Contact__r.Name,
+                                        Contact__r.Email,
+                                        Contact__r.HomePhone,
+                                        BoatType__r.Name,
+                                        Picture__c"
+                              targetFields="{!v.boat}"
+                              targetError="{!v.recordError}"
+                               />-->
+        <aura:if isTrue ="{! !empty(v.boat)}">
+            <article class="slds-card">
+             <lightning:tabset aura:id="tabset">
+                 <lightning:tab label="Details" id="details" aura:id="tabdetail">
+                     <!--<c:BoatDetail boat="{!v.boatRecord}"/>-->
+                     <c:BoatDetail boat="{!v.boat}"/>
+                     <!--<p>{!v.boat.Price__c}</p>-->
+                    <!-- <p>{!v.boatRecord.fields.Name.value}</p>-->
+                    <!-- <p>{!v.boatRecord.fields.Id.value}</p>-->
+                    <!-- <p>{!v.boat.Name}</p>
+                     <p>{!v.boat.Id}</p>-->
+             </lightning:tab>
+             <lightning:tab label="Reviews" id="reviews" aura:id="reviews">
+             </lightning:tab>
+             <lightning:tab label="Add Review" id="addreview" aura:id="addreview">
+             </lightning:tab>
+         </lightning:tabset>
+    </article>       
+    </aura:if>
+    
+</aura:component>

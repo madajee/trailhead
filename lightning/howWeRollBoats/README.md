@@ -3,7 +3,7 @@ I must acknowledge, front end development is quite different than developing soa
 
 Anyways, I will start with the specialist superbadge after completing the lightning modules.....
 
-I) Build the Search Form
+II) Build the Search Form
 
 Requirement Understanding
 
@@ -46,7 +46,7 @@ sfdx force:lightning:component:create -n BoatSearchResults -d force-app/main/def
 sfdx force:apex:class:create -n BoatController -d force-app/main/default/classes
 ******************************************************************************************************************************************************
 
-II) Populate the Search Results
+III) Populate the Search Results
 
 Requirement Understanding
 
@@ -79,7 +79,7 @@ sfdx force:lightning:component:create -n BoatTile -d force-app/main/default/aura
 
 ******************************************************************************************************************************************************
 
-III) Implement the search filter
+IV) Implement the search filter
 
 Requirement Understanding
 
@@ -104,11 +104,11 @@ sfdx force:lightning:event:create -n formSubmit -d force-app/main/default/aura/
 
 ******************************************************************************************************************************************************
 
-IV) Highlight the Selected Boat
+V) Highlight the Selected Boat
 
 BoatTile component is designed to display boat image as a click button, but we need to communicate the selected boat to the BoatSearchResults parent component.
 
-BoatTile component will register a BoatSelect event which will communicate the selected boat id to the BoatSearchResults which then will display the selection in the boat iteration. Selected attribute on the Boat Tile component enables the tenary selection of css class.
+BoatTile component will register a BoatSelect event which will communicate the selected boat id to the BoatSearchResults which then will display the selected boat while iteration over boat array. BoatSearchResults will set the selected attribute as true for the selected boat and Boat Tile component enables the tenary selection of css class based on the value of selected attribute.
 
 # Artifacts
 a) BoatSelect.evt
@@ -123,7 +123,49 @@ sfdx force:lightning:event:create -n BoatSelect -d force-app/main/default/aura/
 
 ******************************************************************************************************************************************************
 
+VI) Display boat details
 
+a) In this step, we need to display the details of a selected boat. We will start with creating a BoatDetails component by enabling lightningpage,lightning record page interfaces.
+
+b) Boat Details use lightning tab components  for displaying "Details", "Reviews" & "Add Review" tabs. Details tab will display the detail of selected boat with the Boat Detail child component.
+
+c) Use lighning data service <force:recordData> to load the boat record by setting the recordId attribute to the boat Id.
+
+d) Enable the commmunication between the Boat Tile and Boat Details component with the BoatSelcted application event and boat data as a parameter type. Boat Tile component will register "BoatSelected" event, fire the event from "onBoatClick" method, Boat Details component will handle the "BoatSelcted" event with "onBoatSelected" handlder method. 
+
+e) Reload the boat record in the Boat Details by reloading the LDS record in "onBoatSelected" handler method.
+
+f) Boat Detail defines a Boat attribute to enable the communication  with the parent Boat Details component. Use the 2 column grid (lightning layout) in the card component (lightning card) to display the boat data in one column and image in the other column.
+
+g) Use the lightning card actions attribute to display "Full Details" lightning button which navigates to the boat record with the "e.force:navigateToSObject" platform service event.
+
+# Artifacts
+a) BoatDetails.cmp
+b) BoatDetailsController.js
+c) BoatSelected.evt
+d) BoatTile.cmp
+e) BoatTileController.js
+f) BoatDetail.cmp
+g) BoatDetailController.js
+h) BoatDetailHelper.js
+i) BoatDetail.css
+
+# SFDX CLI
+
+sfdx force:lightning:component:create -n BoatDetails -d force-app/main/default/aura/
+
+sfdx force:lightning:event:create -n BoatSelected -d force-app/main/default/aura/
+
+sfdx force:lightning:component:create -n BoatDetail -d force-app/main/default/aura/
+
+******************************************************************************************************************************************************
+
+
+a) BoatDetails.cmp
+b) BoatDetail.cmp
+c) BoatSelected.evt
+d) BoatTile.cmp
+e) BoatTileController.js
 
 
 # SFDX  App
