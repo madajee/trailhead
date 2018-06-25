@@ -9,5 +9,8 @@
 	},
     handleRecordUpdate: function(component, event, helper) {
         console.log("Record Updated");
-    }
+    },
+    onBoatReviewAdded : function(component, event, helper) {  
+            component.find("tabset").set("v.selectedTabId","boatreviewtab");
+    },
 })

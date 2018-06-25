@@ -2,11 +2,13 @@
 	<!--<aura:attribute name="boatRecord" type="Object"/>-->
     <!--<aura:attribute name="record" type="Object"/>-->
     <aura:attribute name="id" type="Id"/>
+    <aura:attribute name="selectedTabId" type="String"/>
     <aura:attribute name="boat" type="Boat__c"/>
     <aura:attribute name="recordLoadError" type="String"/>
         <!--<aura:handler name="BoatSelected" event="c:BoatSelected"
             action="{!c.onBoatSelected}"/>-->
         <aura:handler event="c:BoatSelected" action="{!c.onBoatSelected}"/>
+    	<aura:handler name="BoatReviewAdded" event="c:BoatReviewAdded" action="{!c.onBoatReviewAdded}"/>
        <force:recordData aura:id="service"
             recordId="{!v.id}"
             targetFields="{!v.boat}"
@@ -40,7 +42,7 @@
                                />-->
         <aura:if isTrue ="{! !empty(v.boat)}">
             <article class="slds-card">
-             <lightning:tabset aura:id="tabset">
+             <lightning:tabset aura:id="tabset" selectedTabId="{!v.selectedTabId}">
                  <lightning:tab label="Details" id="details" aura:id="tabdetail">
                      <!--<c:BoatDetail boat="{!v.boatRecord}"/>-->
                      <c:BoatDetail boat="{!v.boat}"/>
@@ -50,9 +52,10 @@
                     <!-- <p>{!v.boat.Name}</p>
                      <p>{!v.boat.Id}</p>-->
              </lightning:tab>
-             <lightning:tab label="Reviews" id="reviews" aura:id="reviews">
+             <lightning:tab label="Reviews" id="boatreviewtab" aura:id="boatreviewtab">
              </lightning:tab>
              <lightning:tab label="Add Review" id="addreview" aura:id="addreview">
+                 <c:AddBoatReview boat="{!v.boat}"></c:AddBoatReview>
              </lightning:tab>
          </lightning:tabset>
     </article>       

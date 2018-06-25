@@ -158,15 +158,36 @@ sfdx force:lightning:event:create -n BoatSelected -d force-app/main/default/aura
 
 sfdx force:lightning:component:create -n BoatDetail -d force-app/main/default/aura/
 
-******************************************************************************************************************************************************
+********************************************************************************************************************************************
 
+VII) Add boat reviews
+As customers are checking out on the selected boat detail, they want to check on the experiences of other customers. 
 
-a) BoatDetails.cmp
-b) BoatDetail.cmp
-c) BoatSelected.evt
-d) BoatTile.cmp
-e) BoatTileController.js
+a) Add Review tab in the Boat Details component will display the Add Review form with the Add Boat Review child component.
 
+b) SLDS enable the form layout with stylesheet classes (slds-form slds-form_stacked, slds-form-element).
+
+c) Boat Details component will pass the selected boat record with Boat attribute, as with the Boat Detail component.
+
+d) Use lighning data service <force:recordData> to load the boat review record by setting the recordId attribute to the boat review Id. Init handler will call the getNewRecord  method of LDS component which will be saved with the boat reference by calling the saveRecord method of LDS component.
+
+e)  Add Boat Review component will communicate the Boat Details component with the "BoatReviewAdded" event and the event handler method will set the "selectedTabId" attribute of tab component to the reviews tab.  
+
+# Artifacts
+a) AddBoatReview.cmp
+b) AddBoatReviewController.js
+c) AddBoatReviewHelper.js
+d) BoatReviewAdded.evt
+e) BoatDetails.cmp
+f) BoatDetailsController.js
+
+# SFDX CLI
+
+sfdx force:lightning:component:create -n AddBoatReview -d force-app/main/default/aura/
+
+sfdx force:lightning:event:create -n BoatReviewAdded -d force-app/main/default/aura/
+
+********************************************************************************************************************************************
 
 # SFDX  App
 
