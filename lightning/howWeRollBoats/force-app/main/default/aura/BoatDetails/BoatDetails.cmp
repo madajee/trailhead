@@ -7,6 +7,7 @@
     <aura:attribute name="recordLoadError" type="String"/>
         <!--<aura:handler name="BoatSelected" event="c:BoatSelected"
             action="{!c.onBoatSelected}"/>-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
         <aura:handler event="c:BoatSelected" action="{!c.onBoatSelected}"/>
     	<aura:handler name="BoatReviewAdded" event="c:BoatReviewAdded" action="{!c.onBoatReviewAdded}"/>
        <force:recordData aura:id="service"
@@ -43,7 +44,7 @@
         <aura:if isTrue ="{! !empty(v.boat)}">
             <article class="slds-card">
              <lightning:tabset aura:id="tabset" selectedTabId="{!v.selectedTabId}">
-                 <lightning:tab label="Details" id="details" aura:id="tabdetail">
+                 <lightning:tab label="Details" id="detailstab" aura:id="detailstab">
                      <!--<c:BoatDetail boat="{!v.boatRecord}"/>-->
                      <c:BoatDetail boat="{!v.boat}"/>
                      <!--<p>{!v.boat.Price__c}</p>-->
@@ -53,8 +54,9 @@
                      <p>{!v.boat.Id}</p>-->
              </lightning:tab>
              <lightning:tab label="Reviews" id="boatreviewtab" aura:id="boatreviewtab">
+                 <c:BoatReviews boat="{!v.boat}" aura:id="reviews"></c:BoatReviews>
              </lightning:tab>
-             <lightning:tab label="Add Review" id="addreview" aura:id="addreview">
+             <lightning:tab label="Add Review" id="addreviewtab" aura:id="addreviewtab">
                  <c:AddBoatReview boat="{!v.boat}"></c:AddBoatReview>
              </lightning:tab>
          </lightning:tabset>

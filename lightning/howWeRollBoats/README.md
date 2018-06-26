@@ -3,6 +3,18 @@ I must acknowledge, front end development is quite different than developing soa
 
 Anyways, I will start with the specialist superbadge after completing the lightning modules.....
 
+I) Before you start - Prework and Notes
+
+a) In the Setup > Security Controls > Session Settings section of Salesforce Classic, disable the component cache by deactivating the setting for Enable secure and persistent browser caching to improve performance.
+
+b) Install this unmanaged package.
+packagingSetupUI/ipLanding.app?apvId=04tf40000011Bh4
+
+c) Sample data will automatically be added to your org after the installation of the unmanaged package is verified in Challenge 1. If you change orgs for any reason after passing the first challenge, you may execute the static method initData() found in GenerateData.apxc.
+
+********************************************************************************************************************************************
+
+
 II) Build the Search Form
 
 Requirement Understanding
@@ -44,7 +56,7 @@ sfdx force:lightning:component:create -n BoatSearchForm -d force-app/main/defaul
 sfdx force:lightning:component:create -n BoatSearchResults -d force-app/main/default/aura/
 
 sfdx force:apex:class:create -n BoatController -d force-app/main/default/classes
-******************************************************************************************************************************************************
+********************************************************************************************************************************************
 
 III) Populate the Search Results
 
@@ -160,7 +172,7 @@ sfdx force:lightning:component:create -n BoatDetail -d force-app/main/default/au
 
 ********************************************************************************************************************************************
 
-VII) Add boat reviews
+VII) Add Boat Reviews
 As customers are checking out on the selected boat detail, they want to check on the experiences of other customers. 
 
 a) Add Review tab in the Boat Details component will display the Add Review form with the Add Boat Review child component.
@@ -188,6 +200,23 @@ sfdx force:lightning:component:create -n AddBoatReview -d force-app/main/default
 sfdx force:lightning:event:create -n BoatReviewAdded -d force-app/main/default/aura/
 
 ********************************************************************************************************************************************
+
+VII) Display Boat Reviews
+Next Step is to display the boat reviews for the selected boat in the Reviews tab of Boat Details component.
+
+a) Create a BoatReviews component with an Boat & Boat Review array attribute, init handler and referencing BoatReviews Controller. 
+
+b) AuraEnabled getAll method in BoatReviews controller class will return the list of boat reviews for a specific boat.
+
+c) Design the Boat Review component referring SLDS feed component blueprints and Iteration tag. (aura:iteration). Also enable the navigation to the "boat review created by" user record.
+
+d) Reviews tab in the Boat Details component will display the reviews with the BoatReviews child component. As with other tabs, Boat Details component will pass on the selected boat as an attribute value to the Reviews component.
+
+d) As the reviews are added / or the user selects a different boat, we need to reload the reviews by quering the boat reviews object. Add a method "refresh" on the Boat Reviews with an  action of init function. 
+
+When the Review is added, "onBoatReviewAdded" event handler in the Boat Details component will reload the reviews by calling the refresh method.
+
+Similarly when the LDS Boat Record component of Boat Details is updated by selecting a different boat, "recordUpdated" handler will eload the reviews by calling the refresh method. 
 
 # SFDX  App
 
