@@ -9,7 +9,8 @@
     
     <!--<div class="slds-scrollable" style="height:240px;padding:1rem;">-->
     <!--<ui:scrollerWrapper class="scrollerSize">-->
-    <div class="slds-scrollable" style="height:250px;">
+    <!--<div class="slds-scrollable" style="height:350px;">-->
+    	<div class="slds-scrollable">
         <aura:if isTrue="{!v.boatReviews.length==0}">
             <lightning:layoutItem class="slds-align_absolute-center" flexibility="auto" padding="around-small">   
                 <ui:outputText value="No Reviews Available" />
@@ -33,7 +34,10 @@
                         </div>
                         <ui:outputText value="{!boatReview.Name}"/>
                         <ui:outputRichText class="slds-text-longform" value="{!boatReview.Descripton__c}"/>
-                        {!v.boatReview.Rating__c} 
+                        <lightning:layoutItem size="12" padding="around-small">
+                            <label class="slds-form-element__label" for="input-id-01">Rating</label>
+                            <c:FiveStarRating value="{!boatReview.Rating__c}" readonly="true"/>
+                        </lightning:layoutItem> 
                     </li>
                 </aura:iteration>
             </ul>

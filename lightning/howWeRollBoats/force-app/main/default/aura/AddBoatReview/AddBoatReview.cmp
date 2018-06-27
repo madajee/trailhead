@@ -12,6 +12,7 @@
             fields="Id,
                     Name,
                     Comment__c,
+                    Rating__c,
                     Boat__c"
             targetError="{!v.recordError}"
             mode="EDIT"
@@ -25,12 +26,19 @@
         	 <lightning:input type="string" name="title" 
                               label="Title" value="{! v.boatReview.name}"/>
        </div>-->
-        <div class="slds-form-element">
-        	<label class="slds-form-element__label">Description</label>
-    	</div>
-       <div class="slds-form-element">
-        	 <lightning:inputRichText value="{!v.boatReview.Comment__c}" disabledCategories="FORMAT_FONT"/>
-       </div>
+        <!--<lightning:layoutItem size="12" padding="around-small">-->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label">Description</label>
+            </div>
+            <div class="slds-form-element">
+        	 <!--<lightning:inputRichText value="{!v.boatReview.Comment__c}" disabledCategories="FORMAT_FONT"/>-->
+                <lightning:input type="text" value="{!v.boatReview.Comment__c}"></lightning:input>
+       		</div>
+        	<div class="slds-form-element">
+        		<c:FiveStarRating value="{!v.boatReview.Rating__c}" readonly="false"/>
+            </div>
+       <!-- </lightning:layoutItem>-->
+       
        <div class="slds-form-element">
            	<div class="slds-align_absolute-center">
            		<lightning:button variant='neutral' label='Submit' iconName="utility:save" onclick='{!c.onSave}'/>        

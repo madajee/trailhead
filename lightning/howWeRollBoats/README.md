@@ -202,6 +202,7 @@ sfdx force:lightning:event:create -n BoatReviewAdded -d force-app/main/default/a
 ********************************************************************************************************************************************
 
 VII) Display Boat Reviews
+
 Next Step is to display the boat reviews for the selected boat in the Reviews tab of Boat Details component.
 
 a) Create a BoatReviews component with an Boat & Boat Review array attribute, init handler and referencing BoatReviews Controller. 
@@ -217,6 +218,44 @@ d) As the reviews are added / or the user selects a different boat, we need to r
 When the Review is added, "onBoatReviewAdded" event handler in the Boat Details component will reload the reviews by calling the refresh method.
 
 Similarly when the LDS Boat Record component of Boat Details is updated by selecting a different boat, "recordUpdated" handler will eload the reviews by calling the refresh method. 
+
+# Artifacts
+a) BoatReviews.cmp
+b) BoatReviewsController.js
+c) BoatReviewsHelper.js
+d) BoatReviews.apxc
+e) BoatDetails.cmp
+f) BoatDetailsController.js
+
+
+# SFDX CLI
+
+sfdx force:lightning:component:create -n BoatReviews -d force-app/main/default/aura/
+
+sfdx force:apex:class:create -n BoatReviews -d force-app/main/default/classes
+
+********************************************************************************************************************************************
+
+VIII) Integrate third-party scripts
+
+a) As the install of unmanaged package, fivestar rating.css & rating.js is loaded as static resources.
+
+b) Create a FievStarRating component which will import the scripts and have the readonly attribute which will enable or disable the rating selection, and value attribute which will hold the number of selected stars.
+
+c) Add Review component will enable the rating selection by passing the readonly attribute as false on the FievStarRating child component.
+
+d) BoatReviews component will disable the rating selection by passing the readonly attribute as false on the FievStarRating child component.
+
+# Artifacts
+a) FiveStarRating.cmp
+b) FiveStarRatingController.js
+c) BoatReviews.cmp
+d) AddBoatReview.cmp
+
+# SFDX CLI
+sfdx force:lightning:component:create -n FiveStarRating -d force-app/main/default/aura/
+
+********************************************************************************************************************************************
 
 # SFDX  App
 
