@@ -201,7 +201,7 @@ sfdx force:lightning:event:create -n BoatReviewAdded -d force-app/main/default/a
 
 ********************************************************************************************************************************************
 
-VII) Display Boat Reviews
+VIII) Display Boat Reviews
 
 Next Step is to display the boat reviews for the selected boat in the Reviews tab of Boat Details component.
 
@@ -236,7 +236,7 @@ sfdx force:apex:class:create -n BoatReviews -d force-app/main/default/classes
 
 ********************************************************************************************************************************************
 
-VIII) Integrate third-party scripts
+IX) Integrate third-party scripts
 
 a) As the install of unmanaged package, fivestar rating.css & rating.js is loaded as static resources.
 
@@ -257,17 +257,28 @@ sfdx force:lightning:component:create -n FiveStarRating -d force-app/main/defaul
 
 ********************************************************************************************************************************************
 
-# SFDX  App
+X) Plot the Marker on the Map
+Map component installed with the package need to be enhanced to display the boat location.
 
-## Dev, Build and Test
+a) When the boat is selected Boat Tile component will pass the boat location with the PlotMapMarker application event.
+
+b) Map component will have a PlotMapMarker handler which will set the location attribute to the boat lat & long passed in the PlotMapMarker as parameters.
+
+# Artifacts
+a) Map.cmp
+b) MapController.js
+c) Map.css
+d) MapRenderer.js
+e) Map.design
+f) Map.svg
+g) BoatTile.cmp
+h) BoatTileController.js
 
 
-## Resources
+# SFDX CLI
+sfdx force:lightning:component:create -n Map -d force-app/main/default/aura/
 
+sfdx force:lightning:event:create -n PlotMapMarker -d force-app/main/default/aura/
 
-## Description of Files and Directories
-
-
-## Issues
-
+********************************************************************************************************************************************
 
