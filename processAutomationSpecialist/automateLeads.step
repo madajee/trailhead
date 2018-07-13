@@ -1,4 +1,4 @@
-Req 1: 	Leads can be located in United States.
+Req 1: 	Leads has to be located in United States.
 
 Solution: Req can be met by validating the country and state field on the Lead Records. 
 a) Country field can be one of the following values {US, USA, Blank}
@@ -26,7 +26,7 @@ NOT(CONTAINS("AL:AK:AZ:AR:CA:CO:CT:DE:DC:FL:GA:HI:ID:" & "IL:IN:IA:KS:KY:LA:ME:M
 )
 Error Message: Leads doesn't belong to US State
 
-****************************************************************************************************************************************************************************************************************************************************************
+*****************************************************************************************************************************************************************************
 
 Req 2: 	Routing Leads to the appropriate Sales Team (Rainbow Sales, Assembly System Sales)
 Solution: Req can be met by creating queues and Lead Assignment Rules.
