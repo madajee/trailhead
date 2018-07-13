@@ -1,0 +1,36 @@
+Req 1: 	After the deal is closed, technician team need a setup record for scheduling.
+
+Solution: Req can be met by creating a custom object [Robot_Setup__c]. Record Name should be auto-numbered starting at 0. 
+
+Implementation
+a) Create a custom object [Robot_Setup__c]. Robot Setup Name should be auto number [Robot-{00000}].
+
+******************************************************************************************************************************************************************************
+
+Req 2: 	Setup record should be a child record to the opportunity standard object.
+
+Solution: Create a Master-Detail relationship to the opportunity object.
+
+Implementation
+a) Opportunity__c: [Data Type: Master-Detail] [Related To: Opportunity]
+
+******************************************************************************************************************************************************************************
+
+Req 3: 	Setup record should have setup date and a spot for the technician or the rep to make notes about the setup.
+
+Solution: Add the Setup Date and Technical Notes fields to the Robot Setup Object.
+
+Implementation
+a) 	Date__c: [Data Type: Date]
+b) 	Notes__c: [Data Type: Text Area(255)]
+
+******************************************************************************************************************************************************************************
+
+Req 4: 	Display the day of the week for the setup date as well.
+
+Solution: Add the Day of the Week formula field with CASE() and MOD() functions.
+Implementation
+a) 	Day_of_the_Week__c: [Data Type: Formula (Text)] 
+[ CASE( MOD(Date__c - DATE(1900,1,6),7),0, "Saturday",1,"Sunday",2,"Monday",3,"Tuesday",4,"Wednesday",5,"Thursday",6,"Friday","") ]
+
+******************************************************************************************************************************************************************************
