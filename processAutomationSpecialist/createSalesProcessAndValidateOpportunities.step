@@ -1,0 +1,20 @@
+Req 1: 	Standardize the Sales Process for RB Sales with the following stages: Prospecting, Qualification, Proposal/Price Quote, Negotiation/Review, Awaiting Approval, Closed Won, and Closed Lost. 
+
+Solution: Create a "RB Robotics Sales Process" and configure it with appropriate opportunity stages.
+
+Implementation
+a) Add the  'Awaiting Approval' stage to the Opportunity-->Stage field.
+b) Use the Setup Menu-->Feature Settings-->Sales-->Sales Processes to create the "RB Robotics Sales Process" and configure it with [Prospecting, Qualification, Proposal/Price Quote, Negotiation/Review, Awaiting Approval, Closed Won, and Closed Lost].
+
+******************************************************************************************************************************************************************************
+
+Req 2: Opportunities above 100K can be closed after approval from Sales Managers .
+
+Solution: Meet this requirement by adding the Approved field on the opportunity and create a validation rule with opportunity stage, amount and approved fields
+
+Implementation
+a) Approved__c: [Date Type: Checkbox], [Field Level Security: Sales and Administrator Profile]
+b) Validation Rule on Opportunity Object: 
+[Name: Big_Deals] [Error Condition Formula: AND(Approved__c ==false, Amount >=100000,ISPICKVAL(StageName , 'Closed Won'))] [Error Message: Big Deals have to be send for approval]
+
+******************************************************************************************************************************************************************************
