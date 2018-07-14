@@ -1,0 +1,76 @@
+Requirement Understanding:
+After discussion with the analyst, automating opportunities will require the developer to create Email Alerts, use Process Builder and Approval Process.
+
+Req 1: 	Send an Account Alert email for the prospect and customer account.
+
+Solution: Process will check for account type [Customer-Direct, Prospect] and account ID [Not Null] on the opportunity object and call for [Account Alert] email action.
+
+Implementation
+a) Navigate to the Setup Menu [Process Automation-->Workflow Actions-->Email Alerts] and create the "Account Alert" referencing "Finance: Account Creation" template.
+
+b) Navigate to the Setup Menu [Process Builder] and create a new process [RBAutomateOpportunities] referecing [Opportunity] object.
+
+b.1) Add the FIRST Criteria Node and call for Email Alert Action. Evaluate the next criterial to true.
+[AccountID = Customer-Direct, AccountID != NULL]
+
+b.2) Add the SECOND Criteria Node and call for Email Alert Action. 
+[AccountID = Prospect, AccountID != NULL]
+
+*****************************************************************************************************************************************************************************
+
+Req 2: 	Create a task for account owner for the prospect account.
+
+Solution: Enahnce the process by adding 'Create a Record' action for the Task Record Type for the Prospect creiteria node.
+
+Implementation
+a) Add 'Send Marketing Materials' action to the Prospect account criteria node referencing the Task object.
+[Assigned To ID: Opportunity.OwnerId; Priority: High; Status: Not Started; Subject: Send Marketing Materials; Related To ID: Opportunity.Id]
+
+*****************************************************************************************************************************************************************************
+
+Req 3: 	When an opportunity is in Negotiations, we want to automatically submit it for approval if the amount is over $100,000
+
+Solution: 
+a) Create an approval process [High Value Opportunities] that will send the notification to the manager for approval and proceed the opporutnity to [Awaiting Approval]. Configure the approval process to proceed the opportunity to [Awaiting Approval-->Closed Won] for approval confirmation and [Awaiting Approval-->Negotiation] for approval rejection.
+
+b) Enhance the process by adding another criteria node for high value opportunities and call for action on the approval process.
+
+Implementation
+a) Configure the Approval Process [High Value Opportunities] referencing the opportunity object.
+
+a.1) Entry Criteria: [Opportunity: AmountGREATER THAN100000) AND (Opportunity: StageEQUALSNegotiation/Review]
+
+a.2) Approval Assignment Email Template: [SALES: Opportunity Needs Approval]
+
+a.3) Initial Submission Actions: [Stage Field Update: Awaiting Approval]
+
+a.4) Approval Step: Send Approval Email to Manager
+
+a.5) Final Approval Action: [Stage Field Update: Closed Won; Email Alert: Opportunity Approved; Approved__c Field Update: true]
+
+a.6) Final Rejection Actions: [Stage Field Update: Negotiation/Review; Email Alert: Rejected Email Alert]
+
+b) Add the THIRD Criteria Node and call for Approval Action. 
+[Stage = Negotiation/Review, Amount > 100K], [Submit For Approval: High Value Opportunities]
+
+*****************************************************************************************************************************************************************************
+
+Req 3: 	When we win a deal, we want to create a setup record and set the setup date for 180 days from the close date. Also send an email to the Finance Group.
+
+Solution: 
+a) Enhance the process by adding another criteria node for Won Opportunties and call for action 'Create a Record' on the 'Robot Setup' Record Type. Add Finance Email Alert action.
+
+Implementation
+
+a) Add the FOURTH Criteria Node. 
+[Stage = Closed Won]
+
+a.1) Robot Setup Action
+[Create a Record for Robot Setup; Opportunity: Opportunity.ID; Date: Opportunity.ClosedDate + 180]
+
+a.2) Finance Email Alert Action
+[Closed Won: Account Alert]
+
+*****************************************************************************************************************************************************************************
+
+
