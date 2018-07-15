@@ -1,0 +1,11 @@
+Req 1: Robot setup date that would fall on Saturday or Sunday is set to the following Monday.
+
+Solution: Req can be met by creating a clone of process [RBAutomateOpportunities] and updating the setup date with the correct formula in the Robot Setup Schedule action.
+
+Implementation
+a) Naviagate to the Setup-->Process Builder and open the RBAutomateOpportunities process.
+a.1) Deactivate the process and make the clone to edit the process.
+a.2) Go to the FOURTH criteria node to update the RobotsetupScedule action.
+a.3) Update the formula for the date field.
+[Date: CASE(MOD([Opportunity].CloseDate + 180 - DATE(1900, 1, 7),7), 0, [Opportunity].CloseDate + 181,6, [Opportunity].CloseDate + 182, [Opportunity].CloseDate + 180) ]
+a.4) Activate the process.
