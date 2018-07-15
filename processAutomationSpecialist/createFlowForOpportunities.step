@@ -1,0 +1,16 @@
+Req 1: 	Create a quick product search widget which can display the product based on the search criteria of bot type [RainbowBot, CloudyBot, or Assembly System]
+
+Solution: Req can be met by creating a flow with the bot type as choice input and use the filter of Bot Type against the Product Name in the Product2 standard object. Distribute the flow with the lightning record page.
+
+Implementation
+a) Create a flow with cloud flow designer. [Flow Name: Product Quick Search]
+
+a.1) Create a 'Screen' [Quick Product Search] element with the choice radio button [Rainbow Bot, Cloudy Bot, Assembly System] as a start element
+
+a.2) Create a 'Record Lookup' [Search Products] as another element in the flow.
+[Lookup: Product2; Name Contains !Bot Type]
+[Id: !ProductId; Name: !ProductName]
+
+a.3) Create a 'Screen' [Show Products] with Display Text [{!ProductId} {!ProductName}]
+
+b) Navigate to the Setup-->User Interface--> Lightning App Builder and distribute the flow with Opportunity Record Page.
