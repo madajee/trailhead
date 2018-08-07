@@ -1,0 +1,80 @@
+@isTest
+private class ProjectCalloutServiceTest {
+    
+   @isTest static void testpostOpportunityToPMS() {
+        Opportunity[] opps = TestDataFactory.createProjectOpps(1);
+        List<Id> recordIds = new List<Id>();
+       for (Opportunity opp: opps) {
+           recordIds.add(opp.Id);
+       }
+       System.debug('RecordIDs: ' + recordIds);
+       // Set mock callout class
+      Test.setMock(HttpCalloutMock.class, new ProjectCalloutServiceMock());
+       Test.startTest();
+       	ProjectCalloutService.postOpportunityToPMS(recordIds);
+       Test.stopTest();
+       System.assertEquals(opps[0].Type, 'New Project', 'Problem creating test opportunity records');
+        //System.assertEquals(21.11,celsius);
+    }
+  //Implement mock callout tests here
+  	@isTest static void testQueueablePMSCall() {
+    	String serviceToken;
+        String jsonInput;
+        Id oppId;
+        Opportunity opp;
+        
+        Opportunity[] opps = TestDataFactory.createProjectOpps(1);
+       	serviceToken = ServiceTokens__c.getValues('ProjectServiceToken').Token__c;
+        opp = opps[0];
+        
+        jsonInput = '{\n' +
+            ' "opportunityId" : "'+opp.Id+'",\n'+
+            ' "opportunityName" : "'+opp.Name+'",\n'+
+            ' "accountName" : "'+opp.Account.Name+'",\n'+
+            ' "closeDate" : "'+String.ValueOf(opp.CloseDate).mid(0,10)+'",\n'+   
+            ' "amount" : "'+opp.Amount+'"\n}';
+        // Set mock callout class
+      	Test.setMock(HttpCalloutMock.class, new ProjectCalloutServiceMock());
+        Test.startTest();
+        	ID jobID = System.enqueueJob(new ProjectCalloutService.QueueablePMSCall(serviceToken, jsonInput, opp.Id));
+        Test.stopTest();
+        System.debug('JobID: ' + jobID);
+        //system.assertNotEquals(null, jobID , 'Job is not enqueued successfully');
+    }
+    
+    @isTest
+   static void testpostToPMSSuccess(){
+      Opportunity[] opps = TestDataFactory.createProjectOpps(1);
+      Opportunity opp = [Select Id, Name FROM Opportunity WHERE Name = 'TestAccount Opportunity 0' Limit 1];
+      List<Id> lstOfOppIds = new List<Id>();
+      lstOfOppIds.add(opp.Id);
+      // Set mock callout class
+      Test.setMock(HttpCalloutMock.class, new ProjectCalloutServiceMock());
+      // This causes a fake response to be sent
+      // from the class that implements HttpCalloutMock. 
+      Test.startTest();
+          ProjectCalloutService.postOpportunityToPMS(lstOfOppIds);
+      Test.stopTest();    
+      // Verify that the response received contains fake values        
+      opp = [select StageName from Opportunity where id =: opp.Id];
+      System.assertEquals('Submitted Project',opp.StageName);     
+  }
+  
+     @isTest
+   static void testpostToPMSFailed(){
+      Opportunity[] opps = TestDataFactory.createProjectOpps(1);
+      Opportunity opp = [Select Id, Name FROM Opportunity WHERE Name = 'TestAccount Opportunity 0' Limit 1];
+      List<Id> lstOfOppIds = new List<Id>();
+      lstOfOppIds.add(opp.Id);
+      // Set mock callout class
+      Test.setMock(HttpCalloutMock.class, new ProjectCalloutServiceMockFailure());
+      // This causes a fake response to be sent
+      // from the class that implements HttpCalloutMock. 
+      Test.startTest();
+          ProjectCalloutService.postOpportunityToPMS(lstOfOppIds);
+      Test.stopTest();    
+      // Verify that the response received contains fake values        
+      opp = [select StageName from Opportunity where id =: opp.Id];
+      System.assertEquals('Resubmit Project',opp.StageName);     
+  }
+}

@@ -1,0 +1,63 @@
+public class ProjectCalloutService {
+    //Complete the implementation for business and callout logic
+    @InvocableMethod
+	public static void postOpportunityToPMS(List<Id> recordIds){
+        System.debug('Programatic Handshake from update Opportunity process');
+        System.debug('RecordIDs: ' + recordIds);
+        Opportunity opp = [Select Id, Name, Account.name, CloseDate, Amount 
+                                  from Opportunity Where Id = :recordIds[0]];
+        System.debug ('Opportunity ID: ' + opp.Id);
+        String serviceToken = ServiceTokens__c.getValues('ProjectServiceToken').Token__c;
+        System.debug('Service Token in Invocable Method' + serviceToken);
+        String jsonInput = '{\n' +
+            ' "opportunityId" : "'+opp.Id+'",\n'+
+            ' "opportunityName" : "'+opp.Name+'",\n'+
+            ' "acco	untName" : "'+opp.Account.Name+'",\n'+
+            ' "closeDate" : "'+String.ValueOf(opp.CloseDate).mid(0,10)+'",\n'+   
+            ' "amount" : "'+opp.Amount+'"\n}';
+        
+        System.enqueueJob(new QueueablePMSCall(serviceToken, jsonInput, opp.Id));
+    }
+    
+    @TestVisible
+    class QueueablePMSCall implements System.Queueable, Database.AllowsCallouts{
+        private String serviceToken;
+        private String jsonInput;
+        private Id oppId;
+        
+        public QueueablePMSCall(String serviceToken, String jsonInput, Id oppId){
+            this.serviceToken = serviceToken;
+            this.jsonInput = jsonInput;
+            this.oppId = oppId;
+        }
+        
+        public void execute(QueueableContext qc){
+            postToPMS(serviceToken, jsonInput, oppId); 
+            System.debug('JSON Input: ' +  jsonInput);       
+        }
+    }
+    
+    @future(callout=true)
+    private static void postToPMS(String serviceToken, String jsonInput, Id oppoId){
+        System.debug('Service Token in Future Method' + serviceToken);
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('callout:ProjectService');
+        request.setMethod('POST');
+        request.setHeader('token',serviceToken);
+        request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        request.setBody(jsonInput);
+        HttpResponse response = http.send(request);
+        
+        Opportunity opp = new Opportunity(Id=oppoId);
+        if(response.getStatusCode() == 201){
+            System.debug('Success Callout');
+            opp.StageName = 'Submitted Project';                
+            System.debug('Success: ' + response.getStatus());
+        }else{
+            opp.StageName = 'Resubmit Project';
+            System.debug('Failure: ' + response.getStatusCode() + ' ' + response.getStatus());
+        }
+        update opp;
+    }
+}

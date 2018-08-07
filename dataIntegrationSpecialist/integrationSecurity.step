@@ -1,0 +1,12 @@
+I am starting on this superbadge almost after a month of completing the pre-requisite modules. So I have browsed through the Integration modules [API Basics, Apex Integration Services, Asynchronous Apex, Salesforce & Heroku Integration, Salesforce Connect], and drafting my understanding of available Integration technologies revelant for this superbadge.
+
+STEP 1: Configure outbound application and integration security
+
+a) Round Salesforce Org has to connect to the Square Peg Billing System through a SOAP Interface with endpoint URL "http://sb-integration-bs.herokuapp.com".
+
+b) Round Salesforce Org has to connect to the Square Peg Project Management System (PMS) through a REST interface with an endpoint URL "https://sb-integration-pms.herokuapp.com/projects".
+
+STEP 2: Inbound Integrations
+
+a) Square Peg PMS calls to Round Salesforce org is enabled through an OAuth flow by creating a ProjectService Connected App in Round Salesforce Org and App Registration on the PMS system with the counsumer key  & secret of connected app.
+

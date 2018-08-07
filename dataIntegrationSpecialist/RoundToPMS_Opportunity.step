@@ -1,0 +1,60 @@
+STEP 3: Synchronize Salesforce opportunity data with Square Peg's PMS external system.
+
+As I go through the requirement understanding session, I have gathered a few notes to support technical delivery.
+
+Req 1: Outbound calls to PMS systems are enabled for standard opportunity records for an  'New Project' opportunity type.
+
+Solution: Create a process [Update Opportunity] using Process Builder on the Opportunity Record with the follwing criteria.
+
+Req 2: First leg of the integration is to send the opportunity data to the apex program interface.
+
+Solution: Create a Invocable method [PostOpportunityToPMS] in the Apex Class [ProjectCalloutService] passing the list of Opportunity ID, through an opportunity will be passed when invoked from process action.
+
+Req 3: Last leg of the integration is to make an Http Callout through the PMS REST interface posting the REST data as JSON input.
+
+Solution: Add a method [postToPMS] to the class and annotate the method as @future, and implement it for a successful & failed callout scenario by updating the stage on opportunity [Success: Submitted Project] [Failed: Resubmit Project]
+
+Req 4: To close the thread on the process, we have to leverage Queueable Apex by adding a Middle Integration Leg.
+
+Solution: Add a inner class [QueueablePMSCall] implementing Queueable interface and invoke the postToPMS method of last leg from the execute method passing on the opportunityID along with service token and opportunityUpdate Json input.	
+
+******************************************************************************************************************************************************************************
+
+Testing
+
+FIRST LEG (Opportunity Data to Apex Progam Interface)
+Req 1: First Leg - It is all about whether point & click environment (Update Opportunity Process) is shaking hand with the Programming environment (Invocable Method postOpportunityToPMS of ProjectCalloutService Apex Class).
+
+Req 2: We also need to make sure that the Logs display the opportunity record.
+
+Solution:
+a) Create a Test Data Factory class to create opportunity & service token. Assert for a New Project for the created opportunity records.
+
+b) Test the interface by creating the 'New Project' opportunity from the UI layer and close the opportunity with Stage transition to 'Closed Won'. Check for the debug logs by printing "Programatic Handshake from update Opportunity process" in the 'postOpportunityToPMS' apex method.
+
+MIDDLE LEG (Improve performance with Asynchronous design)
+Req 3: Test the inner class QueueablePMSCall which implements queueable interface.
+
+Solution:
+a) Create a test method (testQueueablePMSCall) which tests the creation of Asynchronous Apex Job.
+
+LAST LEG (Make and Http Callout)
+Req 4: Test for Succesful callout (Status: 201) & Failed Callout (Status: 500)
+
+Solution: 
+a) Create a mock class(ProjectCalloutServiceMock) simulating the success response (Status: 201). Class should be global and implement the HttpCalloutMock
+
+b) Create a mock class(ProjectCalloutServiceMockFailure) simulating the failed response (Status: 500). Class should be global and implement the HttpCalloutMock
+
+c) Create a testpostToPMSSuccess with a success mock class and assert for 'Submitted Project' stage on the opportunity record.
+
+d) Create a testpostToPMSFailed with a failed mock class and assert for 'Resubmit Project' stage on the opportunity record.
+
+******************************************************************************************************************************************************************************
+
+Artifacts
+
+a) ProjectCalloutService.apxc
+b) ProjectCalloutServiceTest.apxc
+c) ProjectCalloutServiceMock.apxc
+d) ProjectCalloutServiceMockFailure.apxc
