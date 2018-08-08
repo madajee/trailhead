@@ -1,0 +1,37 @@
+@RestResource(urlMapping='/project/*')
+global with sharing class ProjectRESTService {
+    //Implement service logic here  
+    @HttpPost
+    global static String postProjectData(String ProjectRef, String ProjectName, String OpportunityId,
+                                       Date StartDate, Date EndDate, Double Amount, String Status) {
+        String retMsg = 'Error';
+        SavePoint postProjectDataBefore = Database.setSavePoint();
+        //List<Opportunity> opps = new List<Opportunity>();
+        try{
+            Opportunity opp = [Select ID, Name, DeliveryInstallationStatus__c 
+                               from Opportunity where ID =: OpportunityId LIMIT 1];
+         	if (opp.ID != null)
+        	{
+            	opp.DeliveryInstallationStatus__c = 'In progress';
+        		Project__c thisProject = new Project__c();
+                    thisProject.ProjectRef__c = ProjectRef;
+                    thisProject.Name = ProjectName;
+                    thisProject.Opportunity__c = opp.ID;
+                    thisProject.Start_Date__c = StartDate;
+                    thisProject.End_Date__c = EndDate;
+                    thisProject.Billable_Amount__c = Amount;
+                    thisProject.Status__c = Status;
+                    insert thisProject;
+                    update opp;
+                	retMsg = 'OK';
+            }
+        //return opp.Name;
+    }
+   catch(Exception ex) {
+            Database.rollback(postProjectDataBefore);
+            retMsg = ex.getMessage();                                 
+       }            	
+   return retMsg;
+   }
+}
+    

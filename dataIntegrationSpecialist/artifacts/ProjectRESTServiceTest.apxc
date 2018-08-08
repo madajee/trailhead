@@ -1,0 +1,40 @@
+@isTest
+private class ProjectRESTServiceTest {
+  //Implement Apex REST service tests here
+  @isTest static void testpostProjectData() {
+        // Call the method to test
+        ID thisOppID = createTestRecord();
+      	System.debug('Test Opportunity ID: ' + thisOppID);
+      	//String startDate = String.valueof(Date.today()); //string.valueofGmt(2014-01-01);
+      	String endDate = String.valueof((Date.today()).addDays(10));//string.valueofGmt(2015-01-01);
+        String opportunityID = String.valueOf(thisOppID);
+      	// Call the method to test
+      	Test.startTest();
+        	String returnMsg = ProjectRESTService.postProjectData('Test4ProjectRef', 'Test4ProjectName', opportunityID,Date.today(), (Date.today()).addDays(10), 300, 'Running');
+      	Test.stopTest();  
+      // ID thisProjectIDId = ProjectRESTService.postProjectData('Test1ProjectRef', 'Test1ProjectName', thisOppID, '2014-01-01', '2014-01-01', 300, 'Running');
+        // Verify results
+        //System.assert(thisProjectIDId != null);
+        //Project__c thisProject = [SELECT Id,Name FROM Project__c WHERE Id=:thisProjectIDId];
+        //System.assert(thisProjectIDId != null);
+        System.assertEquals(returnMsg, 'OK');
+    }
+    
+    @isTest static void testpostProjectDataError() {
+        String opportunityID = 'Hello';
+    	Test.startTest();
+        	String returnMsg = ProjectRESTService.postProjectData('Test4ProjectRef', 'Test4ProjectName', opportunityID,Date.today(), (Date.today()).addDays(10), 300, 'Running');
+      	Test.stopTest();
+        System.assertNotEquals(returnMsg, 'OK');
+    }
+  // Helper method
+    static Id createTestRecord() {
+        // Create test record
+        Opportunity opp = new Opportunity(Name='TestOpp',
+                                         Type = 'New Project',
+                                       StageName='Closed Won',
+                                         CloseDate=System.today().addMonths(24));
+        insert opp;
+        return opp.Id;
+    }          
+}

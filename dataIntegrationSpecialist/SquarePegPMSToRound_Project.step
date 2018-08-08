@@ -1,0 +1,24 @@
+STEP 5: Synchronize PMS Project data from Square Peg's PMS external system to Round Salesforce Org.
+
+Req 1: Round will have to expose a REST interface for PMS to send the project data.
+
+Req 2: Project is a child of Opportunity, so the Rest service have to update the opportunity delivery status record and then create / update  a project record with Inbound data.
+
+Solution:
+a) Develop a Porject Restful Service with Resource (/project/) and use @HttpPost to annotate the postProjectData method of ProjectRESTService.
+
+b) Opportunity ID will be passed as a parameter along with other project data, so look up the opportunity record.
+
+c) Update the Delivery Status on the opportunity & create the project record associating with the opportunity.
+
+******************************************************************************************************************************************************************************
+
+Testing
+
+a) Create a helper method to creating the opportunity data. [createTestRecord]
+b) Create a test method [testpostProjectData] passing on the static project data along with the opportunity ID and assert for OK return message.
+c) Create a test method [testpostProjectDataError] passing on the static project data along with a dummy opportunity ID and assert for Error return message.
+
+Artifacts
+a) ProjectRESTService.apxc
+b) ProjectRESTServiceTest.apxc

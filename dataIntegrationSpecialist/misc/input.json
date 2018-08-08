@@ -1,0 +1,10 @@
+/services/apexrest/project/
+{
+  "ProjectRef" : "Test1ProjectRef",
+  "ProjectName" : "TestProjectName",
+  "OpportunityId" : "006f200001uTBepAAG",
+  "StartDate" : "2014-01-01",
+  "EndDate": "2014-01-01",
+  "Amount": "300",
+  "Status": "Running"
+}
