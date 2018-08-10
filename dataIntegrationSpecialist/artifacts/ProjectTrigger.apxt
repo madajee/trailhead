@@ -1,0 +1,11 @@
+trigger ProjectTrigger on Project__c (after update) {
+    //Call the Billing Service callout logic here
+    
+    for(Project__c prj : Trigger.new){
+    	if (prj.Status__c != null && prj.Status__c.equals('Billable'))
+        {
+            System.debug('Project Updated to Billable: ' + prj.Name);
+            BillingCalloutService.callBillingService(prj.ProjectRef__c,prj.Billable_Amount__c);
+        }
+    }
+}

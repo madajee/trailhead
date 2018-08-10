@@ -1,0 +1,45 @@
+STEP 3: Synchronize Salesforce project data from Round to Square Peg's PMS Billing external system using SOAP interface.
+
+Req 1: Billing System expose the Invoice service through a WSDL interface with [billProject] operation and take input parameters [username, password, projectRef, billAmount]
+
+Solution: Generate the Apex class [BillingServiceProxy] by parsing the Invoice SOAP WSDL.
+a) billProject operation is mapped to the [BillingServiceProxy.InvoicesPortSoap11].billProject(BillingServiceProxy.project)
+
+Req 2: Callout service that will use the proxy interface has to implemented using asynchronous methods and has to enrich the request with security credentials & project data from Round System. Also the successful callout should update project status to 'Billed'
+
+Solution: Create a BillingCalloutService apex class with the callBillingService method.
+
+a) callBillingService should be annoated with @future.
+b) Query the security credentials from the custom settings [ServiceCredentials__c].
+c) Use BillingServiceProxy.project data type from the proxy class to create the input parameter and enrich the parameter values with project data & security credentials.
+d) Update the project status to 'Billed' when the response from SOAP callout is 'OK'.
+
+Req 3: Callout should be triggered when the project status is changed to 'Billable'.
+a) Create a ProjectTrigger on the Project__c object which should check for Billable status and invoke the BillingCalloutService.callBillingService(ProjectRef__c, Billable_Amount__c).
+
+******************************************************************************************************************************************************************************
+
+Testing
+
+a) SOAP Callout can be simulated by having the mock classes implement the WebServiceMock.
+
+b) Create a BillingCalloutServiceMock and override the doInvoke() method to simulate a 'OK' response.
+
+c) Create a BillingCalloutServiceMockFailure and verride the doInvoke() method to simulate a 'ERROR' response.
+
+d) BillingCalloutServiceTest will create the opportunity & project setup data. Success callout will update the project status to 'Billed'. Failed Callout will update the project status to 'Running'.
+
+******************************************************************************************************************************************************************************
+
+Artifacts
+
+a) BillingServiceProxy.apxc
+b) BillingCalloutService.apxc
+c) ProjectTrigger.apxt
+d) BillingCalloutServiceMock.apxc
+e) BillingCalloutServiceMockFailure.apxc
+f) BillingCalloutServiceTest.apxc
+
+
+
+

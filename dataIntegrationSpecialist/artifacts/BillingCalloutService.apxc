@@ -1,0 +1,23 @@
+public class BillingCalloutService {
+    //Implement business and callout logic methods here
+    //
+    @future (callout=true)
+    public static void callBillingService(String projectRef, Decimal billingAmt) {
+        ServiceCredentials__c billingSrvCredentials = ServiceCredentials__c.getValues('BillingServiceCredential');
+        BillingServiceProxy.project projectInputParam = new BillingServiceProxy.project();
+        projectInputParam.username = billingSrvCredentials.Username__c;
+        projectInputParam.password = billingSrvCredentials.Password__c;
+        projectInputParam.projectRef = projectRef;
+        projectInputParam.billAmount = billingAmt;
+        BillingServiceProxy.InvoicesPortSoap11 pmsInvoiceService = new BillingServiceProxy.InvoicesPortSoap11();
+        String response = pmsInvoiceService.billProject(projectInputParam);
+        if (response != null && response.equalsIgnoreCase('OK') )
+        {
+            Project__c prj = [SELECT Status__c FROM Project__c WHERE ProjectRef__c = :projectRef LIMIT 1];
+            prj.Status__c = 'Billed';
+            update prj;
+        }
+        
+    }
+        
+}
